@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Canarinho Imports</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f5f5;
+padding:40px;
+}
+
+.produtos{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+img{
+width:100%;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>⚽Canarinho Imports</h1>
+  <p>Chuteiras, camisas de time e produtos esportivos</p>
+
+<div class="produtos" id="produtos"></div>
+
+<script>
+
+const supabase = supabase.createClient(
+https://lqxbkppnpxoqjmemtzaa.supabase.co
+sb_publishable_0RjCGW-lRmu_cgVY5J07UA_p48suAeh
+)
+
+async function carregarProdutos(){
+
+const { data } = await supabase
+.from('Produtos')
+.select('*')
+
+let html=""
+
+data.forEach(p=>{
+
+html += `
+<div class="card">
+<img src="${p.imagem}">
+<h2>${p.nome}</h2>
+<p>${p.marca}</p>
+<p>R$ ${p.preco}</p>
+</div>
+`
+
+})
+
+document.getElementById("produtos").innerHTML = html
+
+}
+
+carregarProdutos()
+
+</script>
+
+</body>
+</html>
