@@ -12,6 +12,13 @@
 <h1>Canarinho Imports</h1>
 <p>Chuteiras, camisas de time e produtos esportivos</p>
 
+<div style="margin-bottom:20px;">
+<button onclick="carregarProdutos()">Todos</button>
+<button onclick="carregarProdutos('Camisas')">Camisas</button>
+<button onclick="carregarProdutos('Chuteiras')">Chuteiras</button>
+<button onclick="carregarProdutos('Acessórios')">Acessórios</button>
+</div>
+
 <div id="produtos"></div>
 
 <script>
@@ -21,11 +28,17 @@ const supabaseClient = window.supabase.createClient(
 'sb_publishable_0RjCGW-lRmu_cgVY5J07UA_p48suAeh'
 )
 
-async function carregarProdutos(){
+async function carregarProdutos(categoria){
 
-const { data, error } = await supabaseClient
+let query = supabaseClient
 .from('Produtos')
 .select('*')
+
+if(categoria){
+query = query.eq('categoria', categoria)
+}
+
+const { data, error } = await query
 
 if(error){
 console.log(error)
@@ -33,6 +46,7 @@ return
 }
 
 const container = document.getElementById("produtos")
+container.innerHTML = ""
 
 data.forEach(produto => {
 
@@ -51,10 +65,11 @@ card.innerHTML = `
 <h3>${produto.nome}</h3>
 <p>${produto.descricao}</p>
 <p>Marca: ${produto.marca}</p>
+<p>Categoria: ${produto.categoria}</p>
 <p>Preço: R$ ${produto.preco}</p>
 
 <a href="https://wa.me/5584981685355?text=Olá%20tenho%20interesse%20no%20produto%20${produto.nome}" target="_blank">
-<button style="padding:10px; background:#25D366; color:white; border:none; cursor:pointer;">
+<button style="padding:10px;background:#25D366;color:white;border:none;cursor:pointer;">
 Comprar no WhatsApp
 </button>
 </a>
@@ -72,6 +87,3 @@ carregarProdutos()
 
 </body>
 </html>
-}
-
-carregarProdutos()
