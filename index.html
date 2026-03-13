@@ -13,13 +13,15 @@
 
 body{
 font-family: Arial;
-background:#f5f5f5;
+background:#f2f2f2;
 padding:40px;
+color:#111111;
 }
 
 h1{
 font-family:'Montserrat', sans-serif;
 font-size:42px;
+color:#111111;
 }
 
 .banner{
@@ -45,21 +47,25 @@ font-weight:bold;
 margin:10px;
 cursor:pointer;
 font-size:16px;
+color:#111;
+transition:0.2s;
 }
 
 .categoria-btn:hover{
 transform:scale(1.05);
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 
 .produto{
-border:1px solid #ddd;
+border:1px solid #e0e0e0;
 padding:15px;
 margin:10px;
-background:white;
+background:#ffffff;
 width:250px;
 display:inline-block;
 vertical-align:top;
 border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 
 .produto img{
@@ -75,6 +81,12 @@ border:none;
 cursor:pointer;
 width:100%;
 border-radius:6px;
+font-weight:bold;
+transition:0.2s;
+}
+
+.whatsapp-btn:hover{
+background:#1ebe5d;
 }
 
 </style>
@@ -146,8 +158,8 @@ card.innerHTML = `
 <h3>${produto.nome}</h3>
 <p>${produto.descricao}</p>
 <p>Marca: ${produto.marca}</p>
-<p>Categoria: ${produto.categoria}</p>
-<p>Preço: R$ ${produto.preco}</p>
+<p>Categoria: ${produto.categoria || "Não definida"}</p>
+<p><strong>Preço: R$ ${produto.preco}</strong></p>
 
 <a href="https://wa.me/5584981685355?text=Olá%20tenho%20interesse%20no%20produto%20${produto.nome}" target="_blank">
 <button class="whatsapp-btn">
