@@ -30,20 +30,24 @@ color:white;
 }
 
 .menu{
-font-size:26px;
+font-size:28px;
 cursor:pointer;
 }
 
 .logo{
-height:40px;
+height:60px;
+object-fit:contain;
 }
+
+/* BARRA PESQUISA */
 
 .barra-pesquisa{
 display:flex;
 background:white;
-border-radius:30px;
-padding:5px 10px;
-width:40%;
+border-radius:40px;
+padding:6px 15px;
+width:45%;
+box-shadow:0 3px 10px rgba(0,0,0,0.2);
 }
 
 .barra-pesquisa input{
@@ -51,6 +55,7 @@ border:none;
 outline:none;
 flex:1;
 padding:8px;
+font-size:14px;
 }
 
 .barra-pesquisa button{
@@ -60,6 +65,8 @@ cursor:pointer;
 font-size:18px;
 }
 
+/* ICONES */
+
 .icones{
 display:flex;
 align-items:center;
@@ -68,7 +75,7 @@ gap:20px;
 
 .carrinho{
 background:#FFD400;
-padding:6px 10px;
+padding:6px 12px;
 border-radius:20px;
 font-weight:bold;
 cursor:pointer;
@@ -79,30 +86,33 @@ color:black;
 
 .menu-lateral{
 position:fixed;
-left:-250px;
 top:0;
-width:250px;
-height:100%;
+left:-260px;
+width:260px;
+height:100vh;
 background:#111;
 color:white;
-padding:30px;
+padding:30px 20px;
 transition:0.3s;
-z-index:1000;
+z-index:2000;
+box-shadow:5px 0px 20px rgba(0,0,0,0.5);
 }
 
 .menu-lateral h3{
 margin-bottom:20px;
+font-size:22px;
 }
 
 .menu-lateral button{
 width:100%;
-padding:12px;
-margin-bottom:10px;
+padding:14px;
+margin-bottom:12px;
 border:none;
 background:#FFD400;
 font-weight:bold;
 cursor:pointer;
-border-radius:6px;
+border-radius:8px;
+font-size:15px;
 }
 
 /* BANNER */
@@ -164,7 +174,7 @@ font-weight:bold;
 #painel-carrinho{
 display:none;
 position:fixed;
-top:80px;
+top:90px;
 right:20px;
 width:300px;
 background:white;
@@ -173,7 +183,7 @@ border-radius:10px;
 box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
-/* BOTÃO WHATSAPP */
+/* WHATSAPP FIXO */
 
 .whatsapp-fixo{
 position:fixed;
@@ -196,6 +206,7 @@ grid-template-columns:repeat(2,1fr);
 }
 
 @media(max-width:600px){
+
 #produtos{
 grid-template-columns:1fr;
 }
@@ -203,6 +214,7 @@ grid-template-columns:1fr;
 .barra-pesquisa{
 width:50%;
 }
+
 }
 
 </style>
@@ -214,6 +226,10 @@ width:50%;
 <!-- MENU LATERAL -->
 
 <div id="menu-lateral" class="menu-lateral">
+
+<button onclick="fecharMenu()" style="background:red;color:white;">
+Fechar
+</button>
 
 <h3>Categorias</h3>
 
@@ -303,24 +319,27 @@ let carrinho = []
 /* MENU */
 
 function abrirMenu(){
-document.getElementById("menu-lateral").style.left="0"
+document.getElementById("menu-lateral").style.left="0px"
 }
 
 function fecharMenu(){
-document.getElementById("menu-lateral").style.left="-250px"
+document.getElementById("menu-lateral").style.left="-260px"
 }
 
 /* PESQUISA */
 
 function pesquisarProduto(){
 
-const termo=document.getElementById("pesquisa").value.toLowerCase()
+const termo = document.getElementById("pesquisa").value.toLowerCase()
 
-const produtos=document.querySelectorAll(".produto")
+const produtos = document.querySelectorAll(".produto")
 
 produtos.forEach(produto=>{
 
-if(produto.innerText.toLowerCase().includes(termo)){
+const nome = produto.querySelector("h3").innerText.toLowerCase()
+const texto = produto.innerText.toLowerCase()
+
+if(nome.includes(termo) || texto.includes(termo)){
 produto.style.display="block"
 }else{
 produto.style.display="none"
@@ -329,6 +348,14 @@ produto.style.display="none"
 })
 
 }
+
+document.getElementById("pesquisa").addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+pesquisarProduto()
+}
+
+})
 
 /* CARRINHO */
 
@@ -377,11 +404,9 @@ lista.appendChild(linha)
 })
 
 const hr=document.createElement("hr")
-
 lista.appendChild(hr)
 
 const totalDiv=document.createElement("h4")
-
 totalDiv.innerText="Total: R$ "+total.toFixed(2)
 
 lista.appendChild(totalDiv)
@@ -405,11 +430,8 @@ let mensagem="Olá, gostaria de comprar:%0A%0A"
 let total=0
 
 carrinho.forEach(item=>{
-
 mensagem+="- "+item.nome+" (R$ "+item.preco+")%0A"
-
 total+=Number(item.preco)
-
 })
 
 mensagem+="%0ATotal: R$ "+total.toFixed(2)
@@ -441,13 +463,11 @@ return
 }
 
 const container=document.getElementById("produtos")
-
 container.innerHTML=""
 
 data.forEach(produto=>{
 
 const card=document.createElement("div")
-
 card.classList.add("produto")
 
 card.innerHTML=`
@@ -455,6 +475,7 @@ card.innerHTML=`
 <h3>${produto.nome}</h3>
 <p>${produto.descricao}</p>
 <p>Marca: ${produto.marca}</p>
+<p>Categoria: ${produto.categoria}</p>
 <p><strong>R$ ${produto.preco}</strong></p>
 
 <button class="add-carrinho" onclick="adicionarCarrinho('${produto.nome}',${produto.preco})">
