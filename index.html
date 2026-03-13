@@ -18,11 +18,30 @@ padding:40px;
 color:#111111;
 }
 
+/* TOPO */
+
+.topo{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
 h1{
 font-family:'Montserrat', sans-serif;
 font-size:42px;
 color:#111111;
 }
+
+.carrinho{
+background:#FFD400;
+padding:10px 15px;
+border-radius:8px;
+font-weight:bold;
+font-size:20px;
+cursor:pointer;
+}
+
+/* BANNER */
 
 .banner{
 width:100%;
@@ -36,6 +55,8 @@ box-shadow:0 10px 25px rgba(0,0,0,0.15);
 width:100%;
 display:block;
 }
+
+/* BOTÕES CATEGORIA */
 
 .categoria-btn{
 width:120px;
@@ -80,6 +101,18 @@ width:100%;
 border-radius:8px;
 }
 
+.add-carrinho{
+padding:10px;
+background:#FFD400;
+color:#111;
+border:none;
+cursor:pointer;
+width:100%;
+border-radius:6px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
 .whatsapp-btn{
 padding:10px;
 background:#25D366;
@@ -116,7 +149,15 @@ grid-template-columns:1fr;
 
 <body>
 
+<div class="topo">
+
 <h1>Canarinho Imports</h1>
+
+<div class="carrinho">
+🛒 <span id="contador">0</span>
+</div>
+
+</div>
 
 <p>Chuteiras, camisas de time e produtos esportivos</p>
 
@@ -148,6 +189,18 @@ const supabaseClient = window.supabase.createClient(
 'https://lqxbkppnpxoqjmemtzaa.supabase.co',
 'sb_publishable_0RjCGW-lRmu_cgVY5J07UA_p48suAeh'
 )
+
+let carrinho = []
+
+function adicionarCarrinho(nome, preco){
+
+carrinho.push({nome, preco})
+
+document.getElementById("contador").innerText = carrinho.length
+
+alert(nome + " foi adicionado ao carrinho!")
+
+}
 
 async function carregarProdutos(categoria){
 
@@ -182,6 +235,10 @@ card.innerHTML = `
 <p>Categoria: ${produto.categoria || "Não definida"}</p>
 <p><strong>Preço: R$ ${produto.preco}</strong></p>
 
+<button class="add-carrinho" onclick="adicionarCarrinho('${produto.nome}', ${produto.preco})">
+Adicionar ao carrinho
+</button>
+
 <a href="https://wa.me/5584981685355?text=Olá%20tenho%20interesse%20no%20produto%20${produto.nome}" target="_blank">
 <button class="whatsapp-btn">
 Comprar no WhatsApp
@@ -198,6 +255,10 @@ container.appendChild(card)
 carregarProdutos()
 
 </script>
+
+</body>
+
+</html>
 
 </body>
 
