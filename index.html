@@ -42,13 +42,11 @@ card.style.margin = "10px"
 card.style.background = "white"
 
 card.innerHTML = `
-<img src="${produto.imagem}" width="200">
+<img src="${produto.imagem}">
 <h3>${produto.nome}</h3>
 <p>${produto.descricao}</p>
-<p><strong>Marca:</strong> ${produto.marca}</p>
-<p><strong>Preço:</strong> R$ ${produto.preco}</p>
-`
-`
+<p>Marca: ${produto.marca}</p>
+<p>Preço: R$ ${produto.preco}</p>
 `
 
 container.appendChild(card)
