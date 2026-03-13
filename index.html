@@ -219,15 +219,12 @@ text-decoration:none;
 /* RESPONSIVO */
 
 @media(max-width:900px){
-
 .produtos-grid{
 grid-template-columns:repeat(2,1fr);
 }
-
 }
 
 @media(max-width:600px){
-
 .produtos-grid{
 grid-template-columns:1fr;
 }
@@ -243,7 +240,6 @@ height:120px;
 .barra-pesquisa{
 width:50%;
 }
-
 }
 
 </style>
@@ -258,11 +254,13 @@ width:50%;
 
 <button onclick="fecharMenu()" style="background:red;color:white;margin-bottom:20px;">Fechar</button>
 
-<button onclick="carregarProdutos(); fecharMenu()">Todos</button>
+<button onclick="mostrarTodos(); fecharMenu()">Todos</button>
 
 <button onclick="filtrarCategoria('Camisas de Time'); fecharMenu()">Camisas de Time</button>
 
 <button onclick="filtrarCategoria('Chuteiras Mais Vendidas'); fecharMenu()">Chuteiras</button>
+
+<button onclick="filtrarCategoria('Acessorios'); fecharMenu()">Acessorios</button>
 
 <button onclick="filtrarCategoria('Trava Mista'); fecharMenu()">Trava Mista</button>
 
@@ -326,7 +324,7 @@ width:50%;
 
 <!-- ACESSORIOS -->
 
-<div class="categoria-titulo">Acessorios</div>
+<div class="categoria-titulo">🎒 Acessorios</div>
 
 <div class="categoria-info">
 ✔ Padrão | ✔ Segurança | ✔ Estilo
@@ -362,9 +360,7 @@ Finalizar no WhatsApp
 
 </div>
 
-<a href="https://wa.me/5584981685355" class="whatsapp-fixo" target="_blank">
-💬
-</a>
+<a href="https://wa.me/5584981685355" class="whatsapp-fixo" target="_blank">💬</a>
 
 <script>
 
@@ -381,6 +377,29 @@ document.getElementById("menu-lateral").style.left="0"
 
 function fecharMenu(){
 document.getElementById("menu-lateral").style.left="-300px"
+}
+
+/* FILTRO MENU */
+
+function filtrarCategoria(categoria){
+
+const produtos=document.querySelectorAll(".produto")
+
+produtos.forEach(produto=>{
+if(produto.innerText.includes(categoria)){
+produto.style.display="block"
+}else{
+produto.style.display="none"
+}
+})
+
+}
+
+function mostrarTodos(){
+const produtos=document.querySelectorAll(".produto")
+produtos.forEach(produto=>{
+produto.style.display="block"
+})
 }
 
 /* PESQUISA */
@@ -499,6 +518,7 @@ return
 
 document.getElementById("camisas").innerHTML=""
 document.getElementById("chuteiras").innerHTML=""
+document.getElementById("acessorios").innerHTML=""
 document.getElementById("trava").innerHTML=""
 
 data.forEach(produto=>{
@@ -529,6 +549,10 @@ document.getElementById("camisas").appendChild(card)
 
 if(produto.categoria==="Chuteiras Mais Vendidas"){
 document.getElementById("chuteiras").appendChild(card)
+}
+
+if(produto.categoria==="Acessorios"){
+document.getElementById("acessorios").appendChild(card)
 }
 
 if(produto.categoria==="Trava Mista"){
