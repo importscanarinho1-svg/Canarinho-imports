@@ -51,7 +51,7 @@ const supabase = supabase.createClient(
 async function carregarProdutos(){
 
 const { data } = await supabase
-.from('Produtos')
+.from('produtos')
 .select('*')
 
 let html=""
