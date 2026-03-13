@@ -2,6 +2,33 @@
 <html>
 
 <head>
+  
+  <style>
+
+#produtos{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+margin-top:30px;
+}
+
+.produto-card{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+card.classname.produto-card img{
+width:100%;
+border-radius:8px;
+}
+
+</style>
+
+</head>
+  
 <title>Canarinho Imports</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
