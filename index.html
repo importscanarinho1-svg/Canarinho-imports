@@ -2,7 +2,9 @@
 <html>
 <head>
 <title>Canarinho Imports</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 
 <body style="font-family: Arial; background:#f5f5f5; padding:40px;">
@@ -40,22 +42,36 @@ card.style.border = "1px solid #ddd"
 card.style.padding = "15px"
 card.style.margin = "10px"
 card.style.background = "white"
+card.style.width = "250px"
+card.style.display = "inline-block"
+card.style.verticalAlign = "top"
 
 card.innerHTML = `
-<img src="${produto.imagem}">
+<img src="${produto.imagem}" style="width:100%;">
 <h3>${produto.nome}</h3>
 <p>${produto.descricao}</p>
 <p>Marca: ${produto.marca}</p>
 <p>Preço: R$ ${produto.preco}</p>
 
 <a href="https://wa.me/5584981685355?text=Olá%20tenho%20interesse%20no%20produto%20${produto.nome}" target="_blank">
-<button>Comprar no WhatsApp</button>
+<button style="padding:10px; background:#25D366; color:white; border:none; cursor:pointer;">
+Comprar no WhatsApp
+</button>
 </a>
 `
+
 container.appendChild(card)
 
 })
 
+}
+
+carregarProdutos()
+
+</script>
+
+</body>
+</html>
 }
 
 carregarProdutos()
