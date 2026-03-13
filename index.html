@@ -14,8 +14,8 @@
 body{
 font-family:Arial;
 background:#f2f2f2;
-padding:0;
 margin:0;
+padding:0;
 }
 
 /* HEADER */
@@ -26,21 +26,20 @@ align-items:center;
 justify-content:space-between;
 background:#000;
 padding:10px 30px;
-height:90px;
+height:160px;
 color:white;
 }
 
 .menu{
-font-size:30px;
+font-size:32px;
 cursor:pointer;
 }
 
-/* LOGO */
+/* LOGO GRANDE */
 
 .logo{
-height:85px;
+height:150px;
 width:auto;
-object-fit:contain;
 }
 
 /* PESQUISA */
@@ -49,7 +48,7 @@ object-fit:contain;
 display:flex;
 background:white;
 border-radius:40px;
-padding:6px 15px;
+padding:8px 15px;
 width:40%;
 box-shadow:0 3px 10px rgba(0,0,0,0.2);
 }
@@ -59,7 +58,7 @@ border:none;
 outline:none;
 flex:1;
 padding:8px;
-font-size:14px;
+font-size:15px;
 }
 
 .barra-pesquisa button{
@@ -69,7 +68,7 @@ cursor:pointer;
 font-size:18px;
 }
 
-/* ICONES */
+/* CARRINHO */
 
 .icones{
 display:flex;
@@ -79,7 +78,7 @@ gap:20px;
 
 .carrinho{
 background:#FFD400;
-padding:8px 12px;
+padding:10px 15px;
 border-radius:20px;
 font-weight:bold;
 cursor:pointer;
@@ -91,7 +90,7 @@ color:black;
 .menu-lateral{
 position:fixed;
 top:0;
-left:-280px;
+left:-300px;
 width:260px;
 height:100vh;
 background:#111;
@@ -179,7 +178,7 @@ font-weight:bold;
 #painel-carrinho{
 display:none;
 position:fixed;
-top:100px;
+top:180px;
 right:20px;
 width:300px;
 background:white;
@@ -220,6 +219,14 @@ grid-template-columns:1fr;
 
 .barra-pesquisa{
 width:50%;
+}
+
+.logo{
+height:100px;
+}
+
+.header{
+height:120px;
 }
 
 }
@@ -308,7 +315,7 @@ Finalizar no WhatsApp
 
 </div>
 
-<!-- WHATSAPP FIXO -->
+<!-- WHATSAPP -->
 
 <a href="https://wa.me/5584981685355" class="whatsapp-fixo" target="_blank">
 💬
@@ -321,16 +328,14 @@ const supabaseClient = window.supabase.createClient(
 'sb_publishable_0RjCGW-lRmu_cgVY5J07UA_p48suAeh'
 )
 
-let carrinho = []
-
-/* MENU */
+let carrinho=[]
 
 function abrirMenu(){
 document.getElementById("menu-lateral").style.left="0"
 }
 
 function fecharMenu(){
-document.getElementById("menu-lateral").style.left="-280px"
+document.getElementById("menu-lateral").style.left="-300px"
 }
 
 /* PESQUISA */
@@ -343,10 +348,9 @@ const produtos=document.querySelectorAll(".produto")
 
 produtos.forEach(produto=>{
 
-const nome=produto.querySelector("h3").innerText.toLowerCase()
 const texto=produto.innerText.toLowerCase()
 
-if(nome.includes(termo) || texto.includes(termo)){
+if(texto.includes(termo)){
 produto.style.display="block"
 }else{
 produto.style.display="none"
@@ -410,10 +414,8 @@ lista.appendChild(linha)
 
 })
 
-const hr=document.createElement("hr")
-lista.appendChild(hr)
-
 const totalDiv=document.createElement("h4")
+
 totalDiv.innerText="Total: R$ "+total.toFixed(2)
 
 lista.appendChild(totalDiv)
@@ -443,10 +445,7 @@ total+=Number(item.preco)
 
 mensagem+="%0ATotal: R$ "+total.toFixed(2)
 
-window.open(
-"https://wa.me/5584981685355?text="+mensagem,
-"_blank"
-)
+window.open("https://wa.me/5584981685355?text="+mensagem,"_blank")
 
 }
 
@@ -454,9 +453,7 @@ window.open(
 
 async function carregarProdutos(categoria){
 
-let query=supabaseClient
-.from('Produtos')
-.select('*')
+let query=supabaseClient.from('Produtos').select('*')
 
 if(categoria){
 query=query.eq('categoria',categoria)
@@ -470,11 +467,13 @@ return
 }
 
 const container=document.getElementById("produtos")
+
 container.innerHTML=""
 
 data.forEach(produto=>{
 
 const card=document.createElement("div")
+
 card.classList.add("produto")
 
 card.innerHTML=`
@@ -482,7 +481,6 @@ card.innerHTML=`
 <h3>${produto.nome}</h3>
 <p>${produto.descricao}</p>
 <p>Marca: ${produto.marca}</p>
-<p>Categoria: ${produto.categoria}</p>
 <p><strong>R$ ${produto.preco}</strong></p>
 
 <button class="add-carrinho" onclick="adicionarCarrinho('${produto.nome}',${produto.preco})">
