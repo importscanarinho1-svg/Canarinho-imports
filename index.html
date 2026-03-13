@@ -48,6 +48,10 @@ card.innerHTML = `
 <p>Marca: ${produto.marca}</p>
 <p>Preço: R$ ${produto.preco}</p>
 
+<button onclick="adicionarCarrinho('${produto.nome}', ${produto.preco})">
+Adicionar ao carrinho
+</button>
+
 <a href="https://wa.me/5584981685355?text=Olá%20tenho%20interesse%20no%20produto%20${produto.nome}" target="_blank">
 <button>Comprar no WhatsApp</button>
 </a>
@@ -60,8 +64,10 @@ container.appendChild(card)
 }
 
 carregarProdutos()
+  let carrinho = []
 
-</script>
-
-</body>
-</html>
+function adicionarCarrinho(nome, preco){
+carrinho.push({nome, preco})
+alert(nome + " foi adicionado ao carrinho")
+console.log(carrinho)
+}
