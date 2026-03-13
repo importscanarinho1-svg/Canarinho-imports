@@ -39,6 +39,12 @@ border-radius:8px;
 font-weight:bold;
 font-size:20px;
 cursor:pointer;
+position:relative;
+}
+
+.carrinho.animar{
+transform:scale(1.2);
+transition:0.2s;
 }
 
 /* PAINEL CARRINHO */
@@ -70,7 +76,7 @@ width:100%;
 display:block;
 }
 
-/* BOTÕES CATEGORIA */
+/* BOTÕES */
 
 .categoria-btn{
 width:120px;
@@ -82,7 +88,6 @@ font-weight:bold;
 margin:10px;
 cursor:pointer;
 font-size:16px;
-color:#111;
 transition:0.2s;
 }
 
@@ -95,12 +100,10 @@ box-shadow:0 5px 15px rgba(0,0,0,0.2);
 
 #produtos{
 display:grid;
-grid-template-columns:repeat(3, 1fr);
+grid-template-columns:repeat(3,1fr);
 gap:20px;
 margin-top:20px;
 }
-
-/* CARD PRODUTO */
 
 .produto{
 border:1px solid #e0e0e0;
@@ -118,7 +121,6 @@ border-radius:8px;
 .add-carrinho{
 padding:10px;
 background:#FFD400;
-color:#111;
 border:none;
 cursor:pointer;
 width:100%;
@@ -136,6 +138,21 @@ cursor:pointer;
 width:100%;
 border-radius:6px;
 font-weight:bold;
+}
+
+/* BOTÃO WHATSAPP FLUTUANTE */
+
+.whatsapp-fixo{
+position:fixed;
+bottom:25px;
+right:25px;
+background:#25D366;
+color:white;
+font-size:28px;
+padding:15px;
+border-radius:50%;
+text-decoration:none;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 /* RESPONSIVO */
@@ -162,7 +179,7 @@ grid-template-columns:1fr;
 
 <h1>Canarinho Imports</h1>
 
-<div class="carrinho" onclick="abrirCarrinho()">
+<div class="carrinho" onclick="abrirCarrinho()" id="icone-carrinho">
 🛒 <span id="contador">0</span>
 </div>
 
@@ -175,24 +192,15 @@ grid-template-columns:1fr;
 </div>
 
 <button class="categoria-btn" onclick="carregarProdutos()">Todos</button>
-
-<button class="categoria-btn" onclick="carregarProdutos('Camisas')">
-Camisas
-</button>
-
-<button class="categoria-btn" onclick="carregarProdutos('Chuteiras Mais Vendidas')">
-Chuteiras Mais Vendidas
-</button>
-
-<button class="categoria-btn" onclick="carregarProdutos('Acessórios')">
-Acessórios
-</button>
+<button class="categoria-btn" onclick="carregarProdutos('Camisas')">Camisas</button>
+<button class="categoria-btn" onclick="carregarProdutos('Chuteiras Mais Vendidas')">Chuteiras Mais Vendidas</button>
+<button class="categoria-btn" onclick="carregarProdutos('Acessórios')">Acessórios</button>
 
 <br><br>
 
 <div id="produtos"></div>
 
-<!-- PAINEL DO CARRINHO -->
+<!-- CARRINHO -->
 
 <div id="painel-carrinho">
 
@@ -207,6 +215,12 @@ Finalizar no WhatsApp
 </button>
 
 </div>
+
+<!-- BOTÃO WHATSAPP -->
+
+<a href="https://wa.me/5584981685355" class="whatsapp-fixo" target="_blank">
+💬
+</a>
 
 <script>
 
@@ -223,7 +237,21 @@ carrinho.push({nome, preco})
 
 document.getElementById("contador").innerText = carrinho.length
 
+animarCarrinho()
+
 atualizarCarrinho()
+
+}
+
+function animarCarrinho(){
+
+const icone = document.getElementById("icone-carrinho")
+
+icone.classList.add("animar")
+
+setTimeout(()=>{
+icone.classList.remove("animar")
+},200)
 
 }
 
@@ -231,11 +259,7 @@ function abrirCarrinho(){
 
 const painel = document.getElementById("painel-carrinho")
 
-if(painel.style.display == "none"){
-painel.style.display = "block"
-}else{
-painel.style.display = "none"
-}
+painel.style.display = painel.style.display === "block" ? "none" : "block"
 
 }
 
@@ -245,30 +269,65 @@ const lista = document.getElementById("lista-carrinho")
 
 lista.innerHTML = ""
 
-carrinho.forEach(item => {
+let total = 0
 
-const linha = document.createElement("p")
+carrinho.forEach((item,index)=>{
 
-linha.innerText = item.nome + " - R$ " + item.preco
+total += Number(item.preco)
+
+const linha = document.createElement("div")
+
+linha.style.display="flex"
+linha.style.justifyContent="space-between"
+linha.style.marginBottom="8px"
+
+linha.innerHTML=`
+<span>${item.nome} - R$ ${item.preco}</span>
+<button onclick="removerItem(${index})" style="background:red;color:white;border:none;border-radius:4px;">X</button>
+`
 
 lista.appendChild(linha)
 
 })
 
+const hr = document.createElement("hr")
+lista.appendChild(hr)
+
+const totalDiv = document.createElement("h4")
+totalDiv.innerText="Total: R$ "+total.toFixed(2)
+
+lista.appendChild(totalDiv)
+
+}
+
+function removerItem(index){
+
+carrinho.splice(index,1)
+
+document.getElementById("contador").innerText = carrinho.length
+
+atualizarCarrinho()
+
 }
 
 function finalizarWhatsApp(){
 
-let mensagem = "Olá, gostaria de comprar:%0A%0A"
+let mensagem="Olá, gostaria de comprar:%0A%0A"
 
-carrinho.forEach(item => {
+let total=0
 
-mensagem += "- " + item.nome + " (R$ " + item.preco + ")%0A"
+carrinho.forEach(item=>{
+
+mensagem += "- "+item.nome+" (R$ "+item.preco+")%0A"
+
+total += Number(item.preco)
 
 })
 
+mensagem += "%0ATotal: R$ "+total.toFixed(2)
+
 window.open(
-"https://wa.me/5584981685355?text=" + mensagem,
+"https://wa.me/5584981685355?text="+mensagem,
 "_blank"
 )
 
@@ -281,25 +340,25 @@ let query = supabaseClient
 .select('*')
 
 if(categoria){
-query = query.eq('categoria', categoria)
+query=query.eq('categoria',categoria)
 }
 
-const { data, error } = await query
+const {data,error}=await query
 
 if(error){
 console.log(error)
 return
 }
 
-const container = document.getElementById("produtos")
-container.innerHTML = ""
+const container=document.getElementById("produtos")
+container.innerHTML=""
 
-data.forEach(produto => {
+data.forEach(produto=>{
 
-const card = document.createElement("div")
+const card=document.createElement("div")
 card.classList.add("produto")
 
-card.innerHTML = `
+card.innerHTML=`
 <img src="${produto.imagem}">
 <h3>${produto.nome}</h3>
 <p>${produto.descricao}</p>
@@ -328,6 +387,9 @@ carregarProdutos()
 
 </script>
 
+</body>
+
+</html>
 </body>
 
 </html>
