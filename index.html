@@ -379,27 +379,32 @@ function fecharMenu(){
 document.getElementById("menu-lateral").style.left="-300px"
 }
 
-/* FILTRO MENU */
+/* FILTRO */
 
 function filtrarCategoria(categoria){
 
 const produtos=document.querySelectorAll(".produto")
 
 produtos.forEach(produto=>{
-if(produto.innerText.includes(categoria)){
+
+if(produto.dataset.categoria===categoria){
 produto.style.display="block"
 }else{
 produto.style.display="none"
 }
+
 })
 
 }
 
 function mostrarTodos(){
+
 const produtos=document.querySelectorAll(".produto")
+
 produtos.forEach(produto=>{
 produto.style.display="block"
 })
+
 }
 
 /* PESQUISA */
@@ -516,16 +521,13 @@ console.log(error)
 return
 }
 
-document.getElementById("camisas").innerHTML=""
-document.getElementById("chuteiras").innerHTML=""
-document.getElementById("acessorios").innerHTML=""
-document.getElementById("trava").innerHTML=""
-
 data.forEach(produto=>{
 
 const card=document.createElement("div")
 
 card.classList.add("produto")
+
+card.dataset.categoria=produto.categoria
 
 card.innerHTML=`
 <img src="${produto.imagem}">
@@ -538,7 +540,7 @@ card.innerHTML=`
 Adicionar ao carrinho
 </button>
 
-<a href="https://wa.me/5584981685355?text=Olá%20tenho%20interesse%20no%20produto%20${produto.nome}" target="_blank">
+<a href="https://wa.me/5584981685355?text=Olá tenho interesse no produto ${produto.nome}" target="_blank">
 <button class="whatsapp-btn">Comprar no WhatsApp</button>
 </a>
 `
