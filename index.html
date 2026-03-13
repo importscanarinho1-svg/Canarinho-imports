@@ -14,7 +14,7 @@
 body{
 font-family:Arial;
 background:#f2f2f2;
-padding:20px;
+padding:0;
 margin:0;
 }
 
@@ -25,28 +25,32 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 background:#000;
-padding:15px 20px;
+padding:10px 30px;
+height:90px;
 color:white;
 }
 
 .menu{
-font-size:28px;
+font-size:30px;
 cursor:pointer;
 }
 
+/* LOGO */
+
 .logo{
-height:60px;
+height:85px;
+width:auto;
 object-fit:contain;
 }
 
-/* BARRA PESQUISA */
+/* PESQUISA */
 
 .barra-pesquisa{
 display:flex;
 background:white;
 border-radius:40px;
 padding:6px 15px;
-width:45%;
+width:40%;
 box-shadow:0 3px 10px rgba(0,0,0,0.2);
 }
 
@@ -75,7 +79,7 @@ gap:20px;
 
 .carrinho{
 background:#FFD400;
-padding:6px 12px;
+padding:8px 12px;
 border-radius:20px;
 font-weight:bold;
 cursor:pointer;
@@ -87,15 +91,15 @@ color:black;
 .menu-lateral{
 position:fixed;
 top:0;
-left:-260px;
+left:-280px;
 width:260px;
 height:100vh;
 background:#111;
 color:white;
 padding:30px 20px;
 transition:0.3s;
-z-index:2000;
-box-shadow:5px 0px 20px rgba(0,0,0,0.5);
+z-index:3000;
+box-shadow:5px 0px 20px rgba(0,0,0,0.6);
 }
 
 .menu-lateral h3{
@@ -118,7 +122,7 @@ font-size:15px;
 /* BANNER */
 
 .banner{
-margin:20px 0;
+margin:20px;
 }
 
 .banner img{
@@ -132,6 +136,7 @@ border-radius:10px;
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:20px;
+padding:20px;
 }
 
 .produto{
@@ -174,7 +179,7 @@ font-weight:bold;
 #painel-carrinho{
 display:none;
 position:fixed;
-top:90px;
+top:100px;
 right:20px;
 width:300px;
 background:white;
@@ -200,9 +205,11 @@ text-decoration:none;
 /* RESPONSIVO */
 
 @media(max-width:900px){
+
 #produtos{
 grid-template-columns:repeat(2,1fr);
 }
+
 }
 
 @media(max-width:600px){
@@ -227,7 +234,7 @@ width:50%;
 
 <div id="menu-lateral" class="menu-lateral">
 
-<button onclick="fecharMenu()" style="background:red;color:white;">
+<button onclick="fecharMenu()" style="background:red;color:white;margin-bottom:20px;">
 Fechar
 </button>
 
@@ -319,25 +326,25 @@ let carrinho = []
 /* MENU */
 
 function abrirMenu(){
-document.getElementById("menu-lateral").style.left="0px"
+document.getElementById("menu-lateral").style.left="0"
 }
 
 function fecharMenu(){
-document.getElementById("menu-lateral").style.left="-260px"
+document.getElementById("menu-lateral").style.left="-280px"
 }
 
 /* PESQUISA */
 
 function pesquisarProduto(){
 
-const termo = document.getElementById("pesquisa").value.toLowerCase()
+const termo=document.getElementById("pesquisa").value.toLowerCase()
 
-const produtos = document.querySelectorAll(".produto")
+const produtos=document.querySelectorAll(".produto")
 
 produtos.forEach(produto=>{
 
-const nome = produto.querySelector("h3").innerText.toLowerCase()
-const texto = produto.innerText.toLowerCase()
+const nome=produto.querySelector("h3").innerText.toLowerCase()
+const texto=produto.innerText.toLowerCase()
 
 if(nome.includes(termo) || texto.includes(termo)){
 produto.style.display="block"
