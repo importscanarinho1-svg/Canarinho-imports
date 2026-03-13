@@ -1,42 +1,74 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <title>Canarinho Imports</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
 <style>
 
+body{
+font-family: Arial;
+background:#f5f5f5;
+padding:40px;
+}
+
+h1{
+font-family:'Montserrat', sans-serif;
+font-size:42px;
+}
+
 .categoria-btn{
-width:100px;
-height:100px;
+width:120px;
+height:120px;
 border-radius:50%;
 border:none;
-background:#FFD700;
-color:black;
+background:#FFD400;
 font-weight:bold;
-cursor:pointer;
 margin:10px;
-font-size:14px;
-display:inline-flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-transition:0.3s;
+cursor:pointer;
+font-size:16px;
 }
 
 .categoria-btn:hover{
-background:black;
+transform:scale(1.05);
+}
+
+.produto{
+border:1px solid #ddd;
+padding:15px;
+margin:10px;
+background:white;
+width:250px;
+display:inline-block;
+vertical-align:top;
+}
+
+.produto img{
+width:100%;
+}
+
+.whatsapp-btn{
+padding:10px;
+background:#25D366;
 color:white;
+border:none;
+cursor:pointer;
+width:100%;
 }
 
 </style>
 
 </head>
 
-<body style="font-family: Arial; background:#f5f5f5; padding:40px;">
+<body>
 
 <h1>Canarinho Imports</h1>
+
 <p>Chuteiras, camisas de time e produtos esportivos</p>
 
 <button class="categoria-btn" onclick="carregarProdutos()">Todos</button>
@@ -52,6 +84,8 @@ Chuteiras
 <button class="categoria-btn" onclick="carregarProdutos('Acessórios')">
 Acessórios
 </button>
+
+<br><br>
 
 <div id="produtos"></div>
 
@@ -85,17 +119,10 @@ container.innerHTML = ""
 data.forEach(produto => {
 
 const card = document.createElement("div")
-
-card.style.border = "1px solid #ddd"
-card.style.padding = "15px"
-card.style.margin = "10px"
-card.style.background = "white"
-card.style.width = "250px"
-card.style.display = "inline-block"
-card.style.verticalAlign = "top"
+card.classList.add("produto")
 
 card.innerHTML = `
-<img src="${produto.imagem}" style="width:100%;">
+<img src="${produto.imagem}">
 <h3>${produto.nome}</h3>
 <p>${produto.descricao}</p>
 <p>Marca: ${produto.marca}</p>
@@ -103,7 +130,7 @@ card.innerHTML = `
 <p>Preço: R$ ${produto.preco}</p>
 
 <a href="https://wa.me/5584981685355?text=Olá%20tenho%20interesse%20no%20produto%20${produto.nome}" target="_blank">
-<button style="padding:10px;background:#25D366;color:white;border:none;cursor:pointer;">
+<button class="whatsapp-btn">
 Comprar no WhatsApp
 </button>
 </a>
@@ -120,6 +147,7 @@ carregarProdutos()
 </script>
 
 </body>
+
 </html>
 
 </body>
