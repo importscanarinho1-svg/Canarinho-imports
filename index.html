@@ -12,11 +12,19 @@
 <h1>Canarinho Imports</h1>
 <p>Chuteiras, camisas de time e produtos esportivos</p>
 
-<div style="margin-bottom:20px;">
-<button onclick="carregarProdutos()">Todos</button>
-<button onclick="carregarProdutos('Camisas')">Camisas</button>
-<button onclick="carregarProdutos('Chuteiras')">Chuteiras</button>
-</div>
+<button class="categoria-btn" onclick="carregarProdutos()">Todos</button>
+
+<button class="categoria-btn" onclick="carregarProdutos('Camisas')">
+Camisas
+</button>
+
+<button class="categoria-btn" onclick="carregarProdutos('Chuteiras')">
+Chuteiras
+</button>
+
+<button class="categoria-btn" onclick="carregarProdutos('Acessórios')">
+Acessórios
+</button>
 
 <div id="produtos"></div>
 
