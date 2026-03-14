@@ -7,6 +7,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
 <style>
 
 body{
@@ -34,8 +36,11 @@ cursor:pointer;
 }
 
 .logo{
-height:200px;
+height:290px;
+width:auto;
 }
+
+/* PESQUISA */
 
 .barra-pesquisa{
 display:flex;
@@ -43,12 +48,30 @@ background:white;
 border-radius:40px;
 padding:8px 15px;
 width:40%;
+box-shadow:0 3px 10px rgba(0,0,0,0.2);
 }
 
 .barra-pesquisa input{
 border:none;
 outline:none;
 flex:1;
+padding:8px;
+font-size:15px;
+}
+
+.barra-pesquisa button{
+border:none;
+background:none;
+cursor:pointer;
+font-size:18px;
+}
+
+/* CARRINHO */
+
+.icones{
+display:flex;
+align-items:center;
+gap:20px;
 }
 
 .carrinho{
@@ -73,6 +96,7 @@ color:white;
 padding:30px 20px;
 transition:0.3s;
 z-index:3000;
+box-shadow:5px 0px 20px rgba(0,0,0,0.6);
 }
 
 .menu-lateral button{
@@ -83,6 +107,7 @@ border:none;
 background:#FFD400;
 font-weight:bold;
 cursor:pointer;
+border-radius:8px;
 }
 
 /* BANNER */
@@ -94,6 +119,19 @@ margin:20px;
 .banner img{
 width:100%;
 border-radius:10px;
+}
+
+/* CATEGORIAS */
+
+.categoria-titulo{
+font-size:28px;
+font-weight:bold;
+margin:40px 20px 10px 20px;
+}
+
+.divisor{
+margin:40px 20px;
+border-top:3px solid #FFD400;
 }
 
 /* PRODUTOS */
@@ -109,19 +147,21 @@ padding:20px;
 background:white;
 padding:15px;
 border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 
 .produto img{
 width:100%;
+border-radius:8px;
 }
 
-.preco-normal{
+.preco-bruto{
 font-size:20px;
 font-weight:bold;
 }
 
 .preco-pix{
-color:green;
+color:#2e7d32;
 font-weight:bold;
 }
 
@@ -137,6 +177,8 @@ padding:10px;
 width:100%;
 margin-top:10px;
 cursor:pointer;
+border-radius:6px;
+font-weight:bold;
 }
 
 .whatsapp-btn{
@@ -146,7 +188,9 @@ padding:10px;
 width:100%;
 margin-top:10px;
 cursor:pointer;
+border-radius:6px;
 color:white;
+font-weight:bold;
 }
 
 /* CARRINHO */
@@ -160,6 +204,21 @@ width:300px;
 background:white;
 padding:20px;
 border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* WHATSAPP */
+
+.whatsapp-fixo{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+font-size:28px;
+padding:15px;
+border-radius:50%;
+text-decoration:none;
 }
 
 </style>
@@ -168,6 +227,24 @@ border-radius:10px;
 
 <body>
 
+<!-- MENU LATERAL -->
+
+<div id="menu-lateral" class="menu-lateral">
+
+<button onclick="fecharMenu()" style="background:red;color:white;margin-bottom:20px;">Fechar</button>
+
+<button onclick="mostrarTodos(); fecharMenu()">Todos</button>
+
+<button onclick="filtrarCategoria('Camisas de Time'); fecharMenu()">Camisas de Time</button>
+
+<button onclick="filtrarCategoria('Chuteiras Mais Vendidas'); fecharMenu()">Chuteiras</button>
+
+<button onclick="filtrarCategoria('Dry Fit'); fecharMenu()">Dry Fit</button>
+
+<button onclick="filtrarCategoria('Trava Mista'); fecharMenu()">Trava Mista</button>
+
+</div>
+
 <div class="header">
 
 <div class="menu" onclick="abrirMenu()">☰</div>
@@ -175,10 +252,13 @@ border-radius:10px;
 <img src="logo.png" class="logo">
 
 <div class="barra-pesquisa">
-<input type="text" id="pesquisa" placeholder="Buscar produto">
+<input type="text" id="pesquisa" placeholder="O que está buscando?">
+<button onclick="pesquisarProduto()">🔍</button>
 </div>
 
+<div class="icones">
 <div class="carrinho" onclick="abrirCarrinho()">🛒 <span id="contador">0</span></div>
+</div>
 
 </div>
 
@@ -186,7 +266,27 @@ border-radius:10px;
 <img src="banner.jpg">
 </div>
 
-<div id="produtos" class="produtos-grid"></div>
+<div class="categoria-titulo">👕 Camisas de Time</div>
+<div id="camisas" class="produtos-grid"></div>
+
+<div class="divisor"></div>
+
+<div class="categoria-titulo">⚽ Chuteiras Mais Vendidas</div>
+<div id="chuteiras" class="produtos-grid"></div>
+
+<div class="divisor"></div>
+
+<div class="banner">
+<img src="banner-chuteiras.jpg">
+</div>
+
+<div class="categoria-titulo">🏃‍♂️ Dry Fit</div>
+<div id="acessorios" class="produtos-grid"></div>
+
+<div class="divisor"></div>
+
+<div class="categoria-titulo">🥾 Trava Mista</div>
+<div id="trava" class="produtos-grid"></div>
 
 <div id="painel-carrinho">
 
@@ -196,11 +296,13 @@ border-radius:10px;
 
 <br>
 
-<button onclick="finalizarWhatsApp()" style="width:100%;padding:10px;background:#25D366;color:white;border:none;">
+<button onclick="finalizarWhatsApp()" style="width:100%; padding:10px; background:#25D366; color:white; border:none; border-radius:6px;">
 Finalizar no WhatsApp
 </button>
 
 </div>
+
+<a href="https://wa.me/5584981685355" class="whatsapp-fixo" target="_blank">💬</a>
 
 <script>
 
@@ -211,69 +313,102 @@ const supabaseClient = window.supabase.createClient(
 
 let carrinho=[]
 
+function abrirMenu(){
+document.getElementById("menu-lateral").style.left="0"
+}
+
+function fecharMenu(){
+document.getElementById("menu-lateral").style.left="-300px"
+}
+
+function filtrarCategoria(categoria){
+const produtos=document.querySelectorAll(".produto")
+produtos.forEach(produto=>{
+if(produto.dataset.categoria===categoria){
+produto.style.display="block"
+}else{
+produto.style.display="none"
+}
+})
+}
+
+function mostrarTodos(){
+const produtos=document.querySelectorAll(".produto")
+produtos.forEach(produto=>{produto.style.display="block"})
+}
+
+function pesquisarProduto(){
+const termo=document.getElementById("pesquisa").value.toLowerCase()
+const produtos=document.querySelectorAll(".produto")
+produtos.forEach(produto=>{
+if(produto.innerText.toLowerCase().includes(termo)){
+produto.style.display="block"
+}else{
+produto.style.display="none"
+}
+})
+}
+
 function adicionarCarrinho(nome,preco){
-
 carrinho.push({nome,preco})
-
 document.getElementById("contador").innerText=carrinho.length
-
 atualizarCarrinho()
-
 }
 
 function abrirCarrinho(){
-
 const painel=document.getElementById("painel-carrinho")
-
 painel.style.display=painel.style.display==="block"?"none":"block"
-
 }
 
 function atualizarCarrinho(){
 
 const lista=document.getElementById("lista-carrinho")
-
 lista.innerHTML=""
-
 let total=0
 
-carrinho.forEach(item=>{
+carrinho.forEach((item,index)=>{
 
 total+=Number(item.preco)
 
 const linha=document.createElement("div")
 
-linha.innerText=item.nome+" - R$ "+item.preco
+linha.style.display="flex"
+linha.style.justifyContent="space-between"
+
+linha.innerHTML=`
+<span>${item.nome} - R$ ${item.preco}</span>
+<button onclick="removerItem(${index})">X</button>
+`
 
 lista.appendChild(linha)
 
 })
 
 const totalDiv=document.createElement("h4")
-
 totalDiv.innerText="Total: R$ "+total.toFixed(2)
-
 lista.appendChild(totalDiv)
 
 }
 
+function removerItem(index){
+carrinho.splice(index,1)
+document.getElementById("contador").innerText=carrinho.length
+atualizarCarrinho()
+}
+
 function finalizarWhatsApp(){
 
-let mensagem="Olá gostaria de comprar:%0A"
-
+let mensagem="Olá, gostaria de comprar:%0A%0A"
 let total=0
 
 carrinho.forEach(item=>{
-
-mensagem+="- "+item.nome+" R$"+item.preco+"%0A"
-
+mensagem+="- "+item.nome+" (R$ "+item.preco+")%0A"
 total+=Number(item.preco)
-
 })
 
-mensagem+="Total: R$ "+total.toFixed(2)
+mensagem+="%0ATotal: R$ "+total.toFixed(2)
 
-window.open("https://wa.me/5584981685355?text="+mensagem)
+window.open("https://wa.me/5584981685355?text="+mensagem,"_blank")
 
 }
 
@@ -281,59 +416,52 @@ window.open("https://wa.me/5584981685355?text="+mensagem)
 
 async function carregarProdutos(){
 
-const {data}=await supabaseClient
+const {data,error}=await supabaseClient
 .from('Produtos')
 .select('*')
 
 data.forEach(produto=>{
 
 const preco = Number(produto.preco)
-
 const pix = preco * 0.95
-
 const parcela = preco / 6
 
 const card=document.createElement("div")
-
 card.classList.add("produto")
+card.dataset.categoria=produto.categoria
 
 card.innerHTML=`
-
 <img src="${produto.imagem}">
-
 <h3>${produto.nome}</h3>
 
-<div class="preco-normal">
-R$ ${preco.toFixed(2)}
-</div>
+<div class="preco-bruto">R$ ${preco.toFixed(2)}</div>
+<div class="preco-pix">R$ ${pix.toFixed(2)} no Pix</div>
+<div class="parcela">Ou 6x de ${parcela.toFixed(2)}</div>
 
-<div class="preco-pix">
-R$ ${pix.toFixed(2)} no Pix
-</div>
-
-<div class="parcela">
-ou 6x de ${parcela.toFixed(2)}
-</div>
-
-<button class="add-carrinho"
-onclick="adicionarCarrinho('${produto.nome}',${preco})">
-
+<button class="add-carrinho" onclick="adicionarCarrinho('${produto.nome}',${preco})">
 Adicionar ao carrinho
-
 </button>
 
 <a href="https://wa.me/5584981685355?text=Olá tenho interesse no produto ${produto.nome}" target="_blank">
-
-<button class="whatsapp-btn">
-
-Comprar no WhatsApp
-
-</button>
-
+<button class="whatsapp-btn">Comprar no WhatsApp</button>
 </a>
 `
 
-document.getElementById("produtos").appendChild(card)
+if(produto.categoria==="Camisas de Time"){
+document.getElementById("camisas").appendChild(card)
+}
+
+if(produto.categoria==="Chuteiras Mais Vendidas"){
+document.getElementById("chuteiras").appendChild(card)
+}
+
+if(produto.categoria==="Dry Fit"){
+document.getElementById("acessorios").appendChild(card)
+}
+
+if(produto.categoria==="Trava Mista"){
+document.getElementById("trava").appendChild(card)
+}
 
 })
 
