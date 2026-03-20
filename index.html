@@ -18,8 +18,6 @@ margin:0;
 padding:0;
 }
 
-/* HEADER */
-
 .header{
 display:flex;
 align-items:center;
@@ -30,17 +28,8 @@ height:160px;
 color:white;
 }
 
-.menu{
-font-size:32px;
-cursor:pointer;
-}
-
-.logo{
-height:290px;
-width:auto;
-}
-
-/* PESQUISA */
+.menu{font-size:32px;cursor:pointer;}
+.logo{height:290px;}
 
 .barra-pesquisa{
 display:flex;
@@ -56,23 +45,9 @@ border:none;
 outline:none;
 flex:1;
 padding:8px;
-font-size:15px;
 }
 
-.barra-pesquisa button{
-border:none;
-background:none;
-cursor:pointer;
-font-size:18px;
-}
-
-/* CARRINHO */
-
-.icones{
-display:flex;
-align-items:center;
-gap:20px;
-}
+.icones{display:flex;gap:20px;}
 
 .carrinho{
 background:#FFD400;
@@ -82,8 +57,6 @@ font-weight:bold;
 cursor:pointer;
 color:black;
 }
-
-/* MENU */
 
 .menu-lateral{
 position:fixed;
@@ -96,7 +69,6 @@ color:white;
 padding:30px 20px;
 transition:0.3s;
 z-index:3000;
-box-shadow:5px 0px 20px rgba(0,0,0,0.6);
 }
 
 .menu-lateral button{
@@ -107,34 +79,9 @@ border:none;
 background:#FFD400;
 font-weight:bold;
 cursor:pointer;
-border-radius:8px;
 }
 
-/* BANNER */
-
-.banner{
-margin:20px;
-}
-
-.banner img{
-width:100%;
-border-radius:10px;
-}
-
-/* CATEGORIAS */
-
-.categoria-titulo{
-font-size:28px;
-font-weight:bold;
-margin:40px 20px 10px 20px;
-}
-
-.divisor{
-margin:40px 20px;
-border-top:3px solid #FFD400;
-}
-
-/* PRODUTOS */
+.banner img{width:100%;border-radius:10px;}
 
 .produtos-grid{
 display:grid;
@@ -147,53 +94,20 @@ padding:20px;
 background:white;
 padding:15px;
 border-radius:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 
-.produto img{
+.produto img{width:100%;}
+
+.add-carrinho,.whatsapp-btn{
 width:100%;
-border-radius:8px;
-}
-
-.preco-bruto{
-font-size:20px;
-font-weight:bold;
-}
-
-.preco-pix{
-color:#2e7d32;
-font-weight:bold;
-}
-
-.parcela{
-font-size:14px;
-color:#555;
-}
-
-.add-carrinho{
-background:#FFD400;
-border:none;
 padding:10px;
-width:100%;
 margin-top:10px;
-cursor:pointer;
-border-radius:6px;
-font-weight:bold;
-}
-
-.whatsapp-btn{
-background:#25D366;
 border:none;
-padding:10px;
-width:100%;
-margin-top:10px;
 cursor:pointer;
-border-radius:6px;
-color:white;
-font-weight:bold;
 }
 
-/* CARRINHO */
+.add-carrinho{background:#FFD400;}
+.whatsapp-btn{background:#25D366;color:white;}
 
 #painel-carrinho{
 display:none;
@@ -203,11 +117,7 @@ right:20px;
 width:300px;
 background:white;
 padding:20px;
-border-radius:10px;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
-
-/* WHATSAPP */
 
 .whatsapp-fixo{
 position:fixed;
@@ -215,28 +125,23 @@ bottom:20px;
 right:20px;
 background:#25D366;
 color:white;
-font-size:28px;
 padding:15px;
 border-radius:50%;
-text-decoration:none;
 }
 
-/* BENEFICIOS (ADICIONADO) */
+/* NOVA SEÇÃO */
 
 .beneficios{
 background:#000;
 color:white;
 display:flex;
 justify-content:space-around;
-padding:60px 20px;
+padding:50px;
 flex-wrap:wrap;
 text-align:center;
 }
 
-.beneficio{
-max-width:250px;
-margin:20px;
-}
+.beneficio{max-width:250px;}
 
 .icone{
 width:80px;
@@ -247,8 +152,7 @@ border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:30px;
-margin:0 auto 20px auto;
+margin:0 auto 15px;
 }
 
 </style>
@@ -257,105 +161,42 @@ margin:0 auto 20px auto;
 
 <body>
 
-<!-- MENU LATERAL -->
-
-<div id="menu-lateral" class="menu-lateral">
-
-<button onclick="fecharMenu()" style="background:red;color:white;margin-bottom:20px;">Fechar</button>
-
-<button onclick="mostrarTodos(); fecharMenu()">Todos</button>
-
-<button onclick="filtrarCategoria('Camisas de Time + Vendidas'); fecharMenu()">Camisas de Time + Vendidas</button>
-
-<button onclick="filtrarCategoria('Chuteiras Mais Vendidas'); fecharMenu()">Chuteiras</button>
-
-<button onclick="filtrarCategoria('Trava Mista'); fecharMenu()">Trava Mista</button>
-
-</div>
-
 <div class="header">
-
 <div class="menu" onclick="abrirMenu()">☰</div>
-
 <img src="logo.png" class="logo">
 
 <div class="barra-pesquisa">
-<input type="text" id="pesquisa" placeholder="O que está buscando?">
-<button onclick="pesquisarProduto()">🔍</button>
+<input id="pesquisa">
 </div>
 
-<div class="icones">
 <div class="carrinho" onclick="abrirCarrinho()">🛒 <span id="contador">0</span></div>
-</div>
-
 </div>
 
 <div class="banner">
 <img src="banner.jpg">
 </div>
 
-<div class="categoria-titulo">👕 Camisas de Time + Vendidas</div>
+<h2>Camisas</h2>
 <div id="camisas" class="produtos-grid"></div>
 
-<div class="divisor"></div>
-
-<div class="categoria-titulo">⚽ Chuteiras Mais Vendidas</div>
+<h2>Chuteiras</h2>
 <div id="chuteiras" class="produtos-grid"></div>
 
-<div class="divisor"></div>
-
-<div class="banner">
-<img src="banner-chuteiras.jpg">
-</div>
-
-<div class="categoria-titulo">🥾 Trava Mista</div>
+<h2>Trava Mista</h2>
 <div id="trava" class="produtos-grid"></div>
 
-<!-- BENEFICIOS (ENCAIXADO AQUI SEM MEXER EM NADA) -->
+<!-- NOVO BLOCO -->
 
 <div class="beneficios">
-
-<div class="beneficio">
-<div class="icone">←</div>
-<h3>Entrega Garantida</h3>
-<p>Entrega via Correios com pacote assegurado e garantia de qualidade.</p>
-</div>
-
-<div class="beneficio">
-<div class="icone">💳</div>
-<h3>Pagamento Seguro</h3>
-<p>Aceitamos Cartão e PIX, pagamentos criptografados.</p>
-</div>
-
-<div class="beneficio">
-<div class="icone">📦</div>
-<h3>Garantia de Qualidade</h3>
-<p>Garantia de 90 dias após o recebimento.</p>
-</div>
-
-<div class="beneficio">
-<div class="icone">↩</div>
-<h3>Troca ou Devolução</h3>
-<p>Troca ou devolução em até 7 dias.</p>
-</div>
-
+<div class="beneficio"><div class="icone">🚚</div>Entrega Garantida</div>
+<div class="beneficio"><div class="icone">💳</div>Pagamento Seguro</div>
+<div class="beneficio"><div class="icone">📦</div>Qualidade</div>
+<div class="beneficio"><div class="icone">↩</div>Devolução</div>
 </div>
 
 <div id="painel-carrinho">
-
-<h3>Seu Carrinho</h3>
-
 <div id="lista-carrinho"></div>
-
-<br>
-
-<button onclick="finalizarWhatsApp()" style="width:100%; padding:10px; background:#25D366; color:white; border:none; border-radius:6px;">
-Finalizar no WhatsApp
-</button>
-
 </div>
-
-<a href="https://wa.me/5584981685355" class="whatsapp-fixo" target="_blank">💬</a>
 
 <script>
 
@@ -366,7 +207,58 @@ const supabaseClient = window.supabase.createClient(
 
 let carrinho=[]
 
-// TODO SEU SCRIPT CONTINUA IGUAL (NÃO MEXI)
+function adicionarCarrinho(nome,preco){
+carrinho.push({nome,preco})
+document.getElementById("contador").innerText=carrinho.length
+}
+
+function abrirCarrinho(){
+const painel=document.getElementById("painel-carrinho")
+painel.style.display=painel.style.display==="block"?"none":"block"
+}
+
+async function carregarProdutos(){
+
+const {data} = await supabaseClient
+.from('Produtos')
+.select('*')
+
+data.forEach(produto=>{
+
+const card=document.createElement("div")
+card.classList.add("produto")
+
+card.innerHTML = `
+<img src="${produto.imagem}">
+<h3>${produto.nome}</h3>
+<p>R$ ${produto.preco}</p>
+
+<button class="add-carrinho" onclick="adicionarCarrinho('${produto.nome}',${produto.preco})">
+Adicionar
+</button>
+
+<a href="https://wa.me/5584981685355?text=Quero ${produto.nome}">
+<button class="whatsapp-btn">Comprar</button>
+</a>
+`
+
+if(produto.categoria==="Camisas de Time + Vendidas"){
+document.getElementById("camisas").appendChild(card)
+}
+
+if(produto.categoria==="Chuteiras Mais Vendidas"){
+document.getElementById("chuteiras").appendChild(card)
+}
+
+if(produto.categoria==="Trava Mista"){
+document.getElementById("trava").appendChild(card)
+}
+
+})
+
+}
+
+carregarProdutos()
 
 </script>
 
