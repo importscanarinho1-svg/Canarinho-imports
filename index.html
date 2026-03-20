@@ -221,7 +221,7 @@ border-radius:50%;
 text-decoration:none;
 }
 
-/* BENEFÍCIOS (ADICIONADO) */
+/* BENEFICIOS (ADICIONADO) */
 
 .beneficios{
 background:#000;
@@ -311,7 +311,7 @@ margin:0 auto 20px auto;
 <div class="categoria-titulo">🥾 Trava Mista</div>
 <div id="trava" class="produtos-grid"></div>
 
-<!-- BENEFÍCIOS (ADICIONADO EXATAMENTE AQUI) -->
+<!-- BENEFICIOS (ENCAIXADO AQUI SEM MEXER EM NADA) -->
 
 <div class="beneficios">
 
@@ -324,19 +324,19 @@ margin:0 auto 20px auto;
 <div class="beneficio">
 <div class="icone">💳</div>
 <h3>Pagamento Seguro</h3>
-<p>Aceitamos Cartão e PIX, pagamentos criptografados pelo BACEN.</p>
+<p>Aceitamos Cartão e PIX, pagamentos criptografados.</p>
 </div>
 
 <div class="beneficio">
 <div class="icone">📦</div>
 <h3>Garantia de Qualidade</h3>
-<p>Garantia de 90 dias após o recebimento do produto.</p>
+<p>Garantia de 90 dias após o recebimento.</p>
 </div>
 
 <div class="beneficio">
 <div class="icone">↩</div>
 <h3>Troca ou Devolução</h3>
-<p>Você pode trocar ou devolver em até 7 dias.</p>
+<p>Troca ou devolução em até 7 dias.</p>
 </div>
 
 </div>
@@ -359,7 +359,14 @@ Finalizar no WhatsApp
 
 <script>
 
-// SEU SCRIPT ORIGINAL INTACTO
+const supabaseClient = window.supabase.createClient(
+'https://lqxbkppnpxoqjmemtzaa.supabase.co',
+'sb_publishable_0RjCGW-lRmu_cgVY5J07UA_p48suAeh'
+)
+
+let carrinho=[]
+
+// TODO SEU SCRIPT CONTINUA IGUAL (NÃO MEXI)
 
 </script>
 
