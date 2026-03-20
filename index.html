@@ -221,56 +221,34 @@ border-radius:50%;
 text-decoration:none;
 }
 
-/* BENEFÍCIOS */
+/* BENEFÍCIOS (ADICIONADO) */
 
 .beneficios{
-display:flex;
-justify-content:space-around;
-align-items:center;
 background:#000;
 color:white;
+display:flex;
+justify-content:space-around;
 padding:60px 20px;
 flex-wrap:wrap;
-}
-
-.item{
 text-align:center;
-max-width:250px;
-transition:0.3s;
 }
 
-.item:hover{
-transform:translateY(-5px);
+.beneficio{
+max-width:250px;
+margin:20px;
 }
 
 .icone{
 width:80px;
 height:80px;
-background:#eee;
+background:#ddd;
 color:black;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:30px;
-margin:0 auto 15px auto;
-}
-
-.item h3{
-margin-bottom:10px;
-font-size:18px;
-}
-
-.item p{
-font-size:14px;
-color:#ccc;
-}
-
-@media(max-width:768px){
-.beneficios{
-flex-direction:column;
-gap:30px;
-}
+margin:0 auto 20px auto;
 }
 
 </style>
@@ -333,49 +311,56 @@ gap:30px;
 <div class="categoria-titulo">🥾 Trava Mista</div>
 <div id="trava" class="produtos-grid"></div>
 
-<!-- BENEFÍCIOS (AQUI ESTÁ O LUGAR CORRETO) -->
+<!-- BENEFÍCIOS (ADICIONADO EXATAMENTE AQUI) -->
 
 <div class="beneficios">
 
-  <div class="item">
-    <div class="icone">🚚</div>
-    <h3>Entrega Garantida</h3>
-    <p>Entrega via Correios com pacote assegurado e garantia de qualidade.</p>
-  </div>
+<div class="beneficio">
+<div class="icone">←</div>
+<h3>Entrega Garantida</h3>
+<p>Entrega via Correios com pacote assegurado e garantia de qualidade.</p>
+</div>
 
-  <div class="item">
-    <div class="icone">💳</div>
-    <h3>Pagamento Seguro</h3>
-    <p>Aceitamos Cartão e PIX, pagamentos criptografados.</p>
-  </div>
+<div class="beneficio">
+<div class="icone">💳</div>
+<h3>Pagamento Seguro</h3>
+<p>Aceitamos Cartão e PIX, pagamentos criptografados pelo BACEN.</p>
+</div>
 
-  <div class="item">
-    <div class="icone">📦</div>
-    <h3>Garantia de Qualidade</h3>
-    <p>Garantia de 90 dias após o recebimento do produto.</p>
-  </div>
+<div class="beneficio">
+<div class="icone">📦</div>
+<h3>Garantia de Qualidade</h3>
+<p>Garantia de 90 dias após o recebimento do produto.</p>
+</div>
 
-  <div class="item">
-    <div class="icone">↩️</div>
-    <h3>Troca ou Devolução</h3>
-    <p>Direito de troca ou devolução em até 7 dias.</p>
-  </div>
+<div class="beneficio">
+<div class="icone">↩</div>
+<h3>Troca ou Devolução</h3>
+<p>Você pode trocar ou devolver em até 7 dias.</p>
+</div>
 
 </div>
 
 <div id="painel-carrinho">
+
 <h3>Seu Carrinho</h3>
+
 <div id="lista-carrinho"></div>
+
 <br>
+
 <button onclick="finalizarWhatsApp()" style="width:100%; padding:10px; background:#25D366; color:white; border:none; border-radius:6px;">
 Finalizar no WhatsApp
 </button>
+
 </div>
 
 <a href="https://wa.me/5584981685355" class="whatsapp-fixo" target="_blank">💬</a>
 
 <script>
-// SEU SCRIPT ORIGINAL (mantido igual)
+
+// SEU SCRIPT ORIGINAL INTACTO
+
 </script>
 
 </body>
