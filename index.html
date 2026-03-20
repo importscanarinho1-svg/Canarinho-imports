@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <title>Canarinho Imports</title>
 
@@ -152,19 +151,6 @@ color:white;
 font-weight:bold;
 }
 
-/* GALERIA */
-.galeria{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-padding:20px;
-}
-
-.galeria img{
-width:100%;
-border-radius:10px;
-}
-
 /* CARRINHO */
 #painel-carrinho{
 display:none;
@@ -198,9 +184,9 @@ text-decoration:none;
 <div id="menu-lateral" class="menu-lateral">
 <button onclick="fecharMenu()" style="background:red;color:white;margin-bottom:20px;">Fechar</button>
 <button onclick="mostrarTodos(); fecharMenu()">Todos</button>
-<button onclick="filtrarCategoria('Camisas de Time + Vendidas'); fecharMenu()">Camisas</button>
+<button onclick="filtrarCategoria('Camisas de Time + Vendidas'); fecharMenu()">Camisas de Time + Vendidas</button>
 <button onclick="filtrarCategoria('Chuteiras Mais Vendidas'); fecharMenu()">Chuteiras</button>
-<button onclick="filtrarCategoria('Trava Mista'); fecharMenu()">Trava</button>
+<button onclick="filtrarCategoria('Trava Mista'); fecharMenu()">Trava Mista</button>
 </div>
 
 <div class="header">
@@ -208,7 +194,7 @@ text-decoration:none;
 <img src="logo.png" class="logo">
 
 <div class="barra-pesquisa">
-<input type="text" id="pesquisa" placeholder="Buscar...">
+<input type="text" id="pesquisa" placeholder="O que está buscando?">
 <button onclick="pesquisarProduto()">🔍</button>
 </div>
 
@@ -219,33 +205,31 @@ text-decoration:none;
 
 <div class="banner"><img src="banner.jpg"></div>
 
-<div class="categoria-titulo">👕 Camisas</div>
+<div class="categoria-titulo">👕 Camisas de Time + Vendidas</div>
 <div id="camisas" class="produtos-grid"></div>
 
 <div class="divisor"></div>
 
-<div class="categoria-titulo">⚽ Chuteiras</div>
+<div class="categoria-titulo">⚽ Chuteiras Mais Vendidas</div>
 <div id="chuteiras" class="produtos-grid"></div>
 
 <div class="divisor"></div>
 
-<div class="categoria-titulo">🥾 Trava</div>
-<div id="trava" class="produtos-grid"></div>
+<div class="banner"><img src="banner-chuteiras.jpg"></div>
 
-<!-- GALERIA -->
-<div class="categoria-titulo">📦 Já Entregues</div>
-<div id="galeria" class="galeria"></div>
+<div class="categoria-titulo">🥾 Trava Mista</div>
+<div id="trava" class="produtos-grid"></div>
 
 <div id="painel-carrinho">
 <h3>Seu Carrinho</h3>
 <div id="lista-carrinho"></div>
 <br>
-<button onclick="finalizarWhatsApp()" style="width:100%; padding:10px; background:#25D366; color:white; border:none;">
+<button onclick="finalizarWhatsApp()" style="width:100%; padding:10px; background:#25D366; color:white; border:none; border-radius:6px;">
 Finalizar no WhatsApp
 </button>
 </div>
 
-<a href="https://wa.me/5584981685355" class="whatsapp-fixo">💬</a>
+<a href="https://wa.me/5584981685355" class="whatsapp-fixo" target="_blank">💬</a>
 
 <script>
 
@@ -259,25 +243,67 @@ let carrinho=[]
 function abrirMenu(){document.getElementById("menu-lateral").style.left="0"}
 function fecharMenu(){document.getElementById("menu-lateral").style.left="-300px"}
 
+function filtrarCategoria(categoria){
+const produtos=document.querySelectorAll(".produto")
+produtos.forEach(produto=>{
+if(produto.dataset.categoria===categoria){
+produto.style.display="block"
+}else{
+produto.style.display="none"
+}
+})
+}
+
+function mostrarTodos(){
+document.querySelectorAll(".produto").forEach(p=>p.style.display="block")
+}
+
+function pesquisarProduto(){
+const termo=document.getElementById("pesquisa").value.toLowerCase()
+document.querySelectorAll(".produto").forEach(produto=>{
+produto.style.display = produto.innerText.toLowerCase().includes(termo) ? "block" : "none"
+})
+}
+
 function adicionarCarrinho(nome,preco){
 carrinho.push({nome,preco})
 document.getElementById("contador").innerText=carrinho.length
 }
 
-/* PRODUTOS (CORRIGIDO) */
+function abrirCarrinho(){
+const p=document.getElementById("painel-carrinho")
+p.style.display=p.style.display==="block"?"none":"block"
+}
+
+/* PRODUTOS (ÚNICA CORREÇÃO AQUI) */
 async function carregarProdutos(){
 
 const {data}=await supabaseClient.from('Produtos').select('*')
 
 data.forEach(produto=>{
 
+const preco = Number(produto.preco)
+const pix = preco * 0.95
+const parcela = preco / 6
+
 const card=document.createElement("div")
 card.classList.add("produto")
+card.dataset.categoria=produto.categoria
 
 card.innerHTML=`
 <img src="${produto.imagem}">
 <h3>${produto.nome}</h3>
-<div class="preco-bruto">R$ ${produto.preco}</div>
+<div class="preco-bruto">R$ ${preco.toFixed(2)}</div>
+<div class="preco-pix">R$ ${pix.toFixed(2)} no Pix</div>
+<div class="parcela">Ou 6x de ${parcela.toFixed(2)}</div>
+
+<button class="add-carrinho" onclick="adicionarCarrinho('${produto.nome}',${preco})">
+Adicionar ao carrinho
+</button>
+
+<a href="https://wa.me/5584981685355?text=Olá tenho interesse no produto ${produto.nome}" target="_blank">
+<button class="whatsapp-btn">Comprar no WhatsApp</button>
+</a>
 `
 
 if(produto.categoria==="Camisas de Time + Vendidas"){
@@ -294,21 +320,7 @@ document.getElementById("trava").appendChild(card)
 
 }
 
-/* GALERIA */
-async function carregarGaleria(){
-
-const {data}=await supabaseClient.from('Galeria').select('*')
-
-data.forEach(item=>{
-const img=document.createElement("img")
-img.src=item.imagem
-document.getElementById("galeria").appendChild(img)
-})
-
-}
-
 carregarProdutos()
-carregarGaleria()
 
 </script>
 
