@@ -2,7 +2,6 @@
 <html>
 
 <head>
-
 <title>Canarinho Imports</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -10,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
 <style>
-
 body{
 font-family:Arial;
 background:#f2f2f2;
@@ -18,6 +16,7 @@ margin:0;
 padding:0;
 }
 
+/* HEADER */
 .header{
 display:flex;
 align-items:center;
@@ -29,8 +28,9 @@ color:white;
 }
 
 .menu{font-size:32px;cursor:pointer;}
-.logo{height:290px;}
+.logo{height:290px;width:auto;}
 
+/* PESQUISA */
 .barra-pesquisa{
 display:flex;
 background:white;
@@ -45,10 +45,18 @@ border:none;
 outline:none;
 flex:1;
 padding:8px;
+font-size:15px;
 }
 
-.icones{display:flex;gap:20px;}
+.barra-pesquisa button{
+border:none;
+background:none;
+cursor:pointer;
+font-size:18px;
+}
 
+/* CARRINHO */
+.icones{display:flex;align-items:center;gap:20px;}
 .carrinho{
 background:#FFD400;
 padding:10px 15px;
@@ -58,6 +66,7 @@ cursor:pointer;
 color:black;
 }
 
+/* MENU */
 .menu-lateral{
 position:fixed;
 top:0;
@@ -69,6 +78,7 @@ color:white;
 padding:30px 20px;
 transition:0.3s;
 z-index:3000;
+box-shadow:5px 0px 20px rgba(0,0,0,0.6);
 }
 
 .menu-lateral button{
@@ -79,10 +89,26 @@ border:none;
 background:#FFD400;
 font-weight:bold;
 cursor:pointer;
+border-radius:8px;
 }
 
+/* BANNER */
+.banner{margin:20px;}
 .banner img{width:100%;border-radius:10px;}
 
+/* CATEGORIAS */
+.categoria-titulo{
+font-size:28px;
+font-weight:bold;
+margin:40px 20px 10px 20px;
+}
+
+.divisor{
+margin:40px 20px;
+border-top:3px solid #FFD400;
+}
+
+/* PRODUTOS */
 .produtos-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -94,21 +120,52 @@ padding:20px;
 background:white;
 padding:15px;
 border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 
-.produto img{width:100%;}
+.produto img{width:100%;border-radius:8px;}
 
-.add-carrinho,.whatsapp-btn{
-width:100%;
-padding:10px;
-margin-top:10px;
+.preco-bruto{font-size:20px;font-weight:bold;}
+.preco-pix{color:#2e7d32;font-weight:bold;}
+.parcela{font-size:14px;color:#555;}
+
+.add-carrinho{
+background:#FFD400;
 border:none;
+padding:10px;
+width:100%;
+margin-top:10px;
 cursor:pointer;
+border-radius:6px;
+font-weight:bold;
 }
 
-.add-carrinho{background:#FFD400;}
-.whatsapp-btn{background:#25D366;color:white;}
+.whatsapp-btn{
+background:#25D366;
+border:none;
+padding:10px;
+width:100%;
+margin-top:10px;
+cursor:pointer;
+border-radius:6px;
+color:white;
+font-weight:bold;
+}
 
+/* GALERIA */
+.galeria{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+padding:20px;
+}
+
+.galeria img{
+width:100%;
+border-radius:10px;
+}
+
+/* CARRINHO */
 #painel-carrinho{
 display:none;
 position:fixed;
@@ -117,86 +174,78 @@ right:20px;
 width:300px;
 background:white;
 padding:20px;
+border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
+/* WHATSAPP */
 .whatsapp-fixo{
 position:fixed;
 bottom:20px;
 right:20px;
 background:#25D366;
 color:white;
+font-size:28px;
 padding:15px;
 border-radius:50%;
+text-decoration:none;
 }
-
-/* NOVA SEÇÃO */
-
-.beneficios{
-background:#000;
-color:white;
-display:flex;
-justify-content:space-around;
-padding:50px;
-flex-wrap:wrap;
-text-align:center;
-}
-
-.beneficio{max-width:250px;}
-
-.icone{
-width:80px;
-height:80px;
-background:#ddd;
-color:black;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-margin:0 auto 15px;
-}
-
 </style>
-
 </head>
 
 <body>
+
+<div id="menu-lateral" class="menu-lateral">
+<button onclick="fecharMenu()" style="background:red;color:white;margin-bottom:20px;">Fechar</button>
+<button onclick="mostrarTodos(); fecharMenu()">Todos</button>
+<button onclick="filtrarCategoria('Camisas de Time + Vendidas'); fecharMenu()">Camisas</button>
+<button onclick="filtrarCategoria('Chuteiras Mais Vendidas'); fecharMenu()">Chuteiras</button>
+<button onclick="filtrarCategoria('Trava Mista'); fecharMenu()">Trava</button>
+</div>
 
 <div class="header">
 <div class="menu" onclick="abrirMenu()">☰</div>
 <img src="logo.png" class="logo">
 
 <div class="barra-pesquisa">
-<input id="pesquisa">
+<input type="text" id="pesquisa" placeholder="Buscar...">
+<button onclick="pesquisarProduto()">🔍</button>
 </div>
 
+<div class="icones">
 <div class="carrinho" onclick="abrirCarrinho()">🛒 <span id="contador">0</span></div>
 </div>
-
-<div class="banner">
-<img src="banner.jpg">
 </div>
 
-<h2>Camisas</h2>
+<div class="banner"><img src="banner.jpg"></div>
+
+<div class="categoria-titulo">👕 Camisas</div>
 <div id="camisas" class="produtos-grid"></div>
 
-<h2>Chuteiras</h2>
+<div class="divisor"></div>
+
+<div class="categoria-titulo">⚽ Chuteiras</div>
 <div id="chuteiras" class="produtos-grid"></div>
 
-<h2>Trava Mista</h2>
+<div class="divisor"></div>
+
+<div class="categoria-titulo">🥾 Trava</div>
 <div id="trava" class="produtos-grid"></div>
 
-<!-- NOVO BLOCO -->
-
-<div class="beneficios">
-<div class="beneficio"><div class="icone">🚚</div>Entrega Garantida</div>
-<div class="beneficio"><div class="icone">💳</div>Pagamento Seguro</div>
-<div class="beneficio"><div class="icone">📦</div>Qualidade</div>
-<div class="beneficio"><div class="icone">↩</div>Devolução</div>
-</div>
+<!-- GALERIA -->
+<div class="categoria-titulo">📦 Já Entregues</div>
+<div id="galeria" class="galeria"></div>
 
 <div id="painel-carrinho">
+<h3>Seu Carrinho</h3>
 <div id="lista-carrinho"></div>
+<br>
+<button onclick="finalizarWhatsApp()" style="width:100%; padding:10px; background:#25D366; color:white; border:none;">
+Finalizar no WhatsApp
+</button>
 </div>
+
+<a href="https://wa.me/5584981685355" class="whatsapp-fixo">💬</a>
 
 <script>
 
@@ -207,49 +256,36 @@ const supabaseClient = window.supabase.createClient(
 
 let carrinho=[]
 
+function abrirMenu(){document.getElementById("menu-lateral").style.left="0"}
+function fecharMenu(){document.getElementById("menu-lateral").style.left="-300px"}
+
 function adicionarCarrinho(nome,preco){
 carrinho.push({nome,preco})
 document.getElementById("contador").innerText=carrinho.length
 }
 
-function abrirCarrinho(){
-const painel=document.getElementById("painel-carrinho")
-painel.style.display=painel.style.display==="block"?"none":"block"
-}
-
+/* PRODUTOS (CORRIGIDO) */
 async function carregarProdutos(){
 
-const {data} = await supabaseClient
-.from('Produtos')
-.select('*')
+const {data}=await supabaseClient.from('Produtos').select('*')
 
 data.forEach(produto=>{
 
 const card=document.createElement("div")
 card.classList.add("produto")
 
-card.innerHTML = `
+card.innerHTML=`
 <img src="${produto.imagem}">
 <h3>${produto.nome}</h3>
-<p>R$ ${produto.preco}</p>
-
-<button class="add-carrinho" onclick="adicionarCarrinho('${produto.nome}',${produto.preco})">
-Adicionar
-</button>
-
-<a href="https://wa.me/5584981685355?text=Quero ${produto.nome}">
-<button class="whatsapp-btn">Comprar</button>
-</a>
+<div class="preco-bruto">R$ ${produto.preco}</div>
 `
 
 if(produto.categoria==="Camisas de Time + Vendidas"){
 document.getElementById("camisas").appendChild(card)
 }
-
 if(produto.categoria==="Chuteiras Mais Vendidas"){
 document.getElementById("chuteiras").appendChild(card)
 }
-
 if(produto.categoria==="Trava Mista"){
 document.getElementById("trava").appendChild(card)
 }
@@ -258,7 +294,21 @@ document.getElementById("trava").appendChild(card)
 
 }
 
+/* GALERIA */
+async function carregarGaleria(){
+
+const {data}=await supabaseClient.from('Galeria').select('*')
+
+data.forEach(item=>{
+const img=document.createElement("img")
+img.src=item.imagem
+document.getElementById("galeria").appendChild(img)
+})
+
+}
+
 carregarProdutos()
+carregarGaleria()
 
 </script>
 
